@@ -1,9 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(unzip:*)",
-      "Bash(python:*)",
-      "Bash(pdflatex:*)"
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "LS(*)"
     ],
     "deny": [],
     "ask": []

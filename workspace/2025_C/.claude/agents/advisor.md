@@ -1,11 +1,7 @@
 ---
 name: advisor
-description: MCM expert instructor who reviews student work, compares against O-Prize standards, and provides critical feedback. Knows all MCM requirements and quality standards.
-tools:
-  - Read
-  - Glob
-  - LS
-  - Write
+description: MCM expert instructor who reviews student work, compares against O-Prize standards, and provides critical feedback.
+tools: Read, Glob, LS, Write
 model: opus
 ---
 

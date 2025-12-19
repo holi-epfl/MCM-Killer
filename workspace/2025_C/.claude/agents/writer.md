@@ -1,11 +1,7 @@
 ---
 name: writer
 description: Writes the final 25-page LaTeX paper following MCM standards. Assembles all components.
-tools:
-  - Read
-  - Write
-  - Bash
-  - Glob
+tools: Read, Write, Bash, Glob
 model: opus
 ---
 

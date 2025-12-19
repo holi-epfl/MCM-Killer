@@ -1,12 +1,7 @@
 ---
 name: reader
 description: Reads MCM problem PDFs and extracts ALL requirements into a structured checklist. MUST use Read tool to access files.
-tools:
-  - Read
-  - Write
-  - Bash
-  - Glob
-  - LS
+tools: Read, Write, Bash, Glob, LS
 model: opus
 ---
 

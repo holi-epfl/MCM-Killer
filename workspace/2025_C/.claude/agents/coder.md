@@ -1,12 +1,7 @@
 ---
 name: coder
 description: Implements mathematical models in Python, runs code, and generates visualizations. Has full execution capabilities.
-tools:
-  - Read
-  - Write
-  - Bash
-  - Glob
-  - LS
+tools: Read, Write, Bash, Glob, LS
 model: sonnet
 ---
 

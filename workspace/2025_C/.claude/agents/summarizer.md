@@ -1,9 +1,7 @@
 ---
 name: summarizer
 description: Creates the critical 1-page Summary Sheet that gives judges their first impression of the paper.
-tools:
-  - Read
-  - Write
+tools: Read, Write
 model: opus
 ---
 

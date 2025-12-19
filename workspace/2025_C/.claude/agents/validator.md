@@ -1,11 +1,7 @@
 ---
 name: validator
 description: Independently verifies code correctness, result accuracy, and catches errors before they reach the final paper.
-tools:
-  - Read
-  - Write
-  - Bash
-  - Glob
+tools: Read, Write, Bash, Glob
 model: sonnet
 ---
 

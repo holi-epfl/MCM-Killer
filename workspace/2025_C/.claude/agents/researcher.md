@@ -1,12 +1,7 @@
 ---
 name: researcher
 description: Searches past O-Prize papers for relevant methods and patterns. Uses Grep and Read to find information.
-tools:
-  - Read
-  - Grep
-  - Glob
-  - LS
-  - Write
+tools: Read, Grep, Glob, LS, Write
 model: sonnet
 ---
 
