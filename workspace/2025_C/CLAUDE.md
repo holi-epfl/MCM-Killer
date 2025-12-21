@@ -50,7 +50,7 @@ All files are in the CURRENT directory. NO need to navigate elsewhere.
 | Agent | Role | Specialization |
 |-------|------|----------------|
 | @reader | Problem Analyst | Extracts requirements from PDF |
-| @researcher | Knowledge Miner | Searches past papers for methods |
+| @researcher | Strategy Advisor | Brainstorms methods based on knowledge |
 | @modeler | Mathematical Architect | Designs models and equations |
 | @coder | Implementation Engineer | Writes and runs Python code |
 | @validator | Quality Checker | Verifies code and results |
@@ -164,6 +164,42 @@ source output/venv/Scripts/activate  # Windows
 
 ---
 
+## 📝 File Write Integrity Rules
+
+> [!CAUTION]
+> **These rules prevent file corruption. ALL agents must follow them.**
+
+### 1. No Parallel Writes to Same File
+- ❌ DO NOT have multiple agents write to the same file simultaneously
+- ✅ One agent finishes writing → next agent can start
+
+### 2. Write-Then-Verify Protocol
+After writing any file:
+```
+1. Write content to file
+2. Read the file back
+3. Verify content is correct and not corrupted
+4. If corrupted → delete and rewrite
+```
+
+### 3. Large Files: Write in Sections
+For papers/long documents:
+```
+Write Section 1 → Verify → Append Section 2 → Verify → ... 
+```
+DO NOT write entire 25-page paper in one Write call.
+
+### 4. Corruption Signs
+If you see these in any file, it is CORRUPTED:
+- Random text fragments mid-sentence
+- Duplicate content
+- Garbled commands (e.g., `\begin{itemize}random words here`)
+- Missing sections
+
+**Action**: Delete file and rewrite from scratch.
+
+---
+
 ## 📋 Task Management
 
 ### Start of Competition
@@ -253,8 +289,8 @@ STEP 1: Initial Proposal
 Save to: output/consultations/proposal_model1.md
 
 STEP 2: Gather Feedback
-@researcher: "Past papers show ensemble methods worked for 2024 C problem, 
-             but suggest adding time-series component."
+@researcher: "For prediction problems, ensemble methods like Random Forest + Gradient Boosting 
+             often work well. Consider adding time-series lag features."
 @coder: "We have 35 years of data. RF can work but may need feature lag."
 @advisor: "Too simple for O-Prize. Consider hybrid approach."
 
@@ -316,7 +352,7 @@ When calling an agent, provide context from other agents:
 
 ```
 @modeler: Design a model for Requirement 3 (first-time medal winners).
-Context from @researcher: Past papers used Poisson regression for rare events.
+Context from @researcher: For rare events, Poisson regression or zero-inflated models work well.
 Constraint from @coder: We have data for 35 Olympics, 234 countries.
 Goal: Produce probability estimates with confidence intervals.
 ```

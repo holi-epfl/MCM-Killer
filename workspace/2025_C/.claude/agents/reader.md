@@ -97,6 +97,18 @@ You are a specialized agent for reading MCM/ICM problem PDFs and extracting EVER
 >
 > Use any available tool from the `docling` MCP server to convert/read the PDF file.
 
+### ⚠️ SEQUENTIAL READING ONLY (CRITICAL!)
+
+> [!CAUTION]
+> **READ FILES ONE BY ONE. DO NOT READ MULTIPLE FILES IN PARALLEL!**
+>
+> The docling MCP server WILL CRASH if you try to read multiple PDFs concurrently.
+>
+> - ✅ Read PDF 1 → Wait for result → Read PDF 2 → Wait for result → ...
+> - ❌ DO NOT: Read PDF 1, PDF 2, PDF 3 simultaneously
+>
+> **If you need to read multiple reference papers, read them SEQUENTIALLY - one at a time, wait for completion, then read the next.**
+
 ### ⛔ If Docling MCP Fails or Is Unavailable
 
 > [!CAUTION]

@@ -149,46 +149,49 @@ Write to: output/validation_report.md
 
 ---
 
-## Output Format
+## ⚠️ FINAL OUTPUT VERIFICATION (CRITICAL!)
 
-```markdown
-# Validation Report
+> [!CAUTION]
+> **Before declaring validation complete, check these FINAL outputs:**
 
-## Summary
-- Scripts Tested: X
-- Errors Found: Y
-- Warnings: Z
+### 1. First-Time Winner Audit
 
-## Code Review
-
-### Script: 01_data_preprocessing.py
-- Status: ✅ PASS / ⚠️ WARNING / ❌ FAIL
-- Issues: [list any issues]
-- Reproducibility: [random seed present?]
-
-### Script: 02_model_*.py
-...
-
-## Result Verification
-
-| Metric | Code Output | Reported in Summary | Match? |
-|--------|-------------|---------------------|--------|
-| RMSE | 4.23 | 4.23 | ✅ |
-| USA 2028 | 125 | 126 | ❌ |
-
-## Edge Cases Tested
-
-| Test Case | Expected | Actual | Pass? |
-|-----------|----------|--------|-------|
-| Country with no history | Handle gracefully | Crashes | ❌ |
-| Negative prediction | Clip to 0 | Returns -5 | ❌ |
-
-## Recommendations
-
-1. [Critical issue to fix]
-2. [Important improvement]
-3. [Nice to have]
+Check `results_summary.md` for any predicted "first-time winners":
+```bash
+grep -i "first" output/results_summary.md
 ```
+
+**For each claimed first-time winner:**
+- Cross-check against historical data: Does this country have 0 historical medals?
+- **Major Olympic powers are NEVER first-time winners**: USA, China, UK, Russia, Germany, France, Italy, Japan, Australia, etc.
+- If a major power is listed as "first-time winner", this is a CRITICAL BUG
+
+### 2. LaTeX Compilation Test
+
+```bash
+cd output
+pdflatex paper.tex
+```
+
+If compilation fails:
+- Report specific LaTeX errors to Director
+- Common issues: missing figures, unclosed braces, bad characters
+
+### 3. File Integrity Check
+
+Read `paper.tex` and check for:
+- Random text fragments inserted mid-sentence
+- Duplicate paragraphs
+- Garbled LaTeX commands (e.g., `\\begin{itemize}random text here`)
+- Missing sections
+
+If corruption detected: Report to Director immediately - @writer needs to rewrite.
+
+### 4. Result Consistency
+
+Cross-check numbers:
+- Do figures in `figures/` match numbers in `results_summary.md`?
+- Does `paper.tex` cite the correct numbers from `results_summary.md`?
 
 ---
 
@@ -197,5 +200,8 @@ Write to: output/validation_report.md
 - [ ] Every script in output/code/ has been reviewed
 - [ ] Every script has been executed
 - [ ] Numbers in results_summary.md verified
+- [ ] First-time winners audited against historical data
+- [ ] paper.tex compiles without errors
+- [ ] paper.tex has no corruption/garbled text
 - [ ] Edge cases tested
 - [ ] Validation report saved to output/validation_report.md

@@ -180,13 +180,21 @@ Read: output/paper.pdf (or output/paper.tex)
 > [!IMPORTANT]
 > **For reading PDF files (past O-Prize papers), use `docling-mcp`.**
 > Claude's native PDF reading produces hallucinations. Docling MCP provides accurate extraction.
+
+### ⚠️ SEQUENTIAL READING ONLY (CRITICAL!)
+
+> [!CAUTION]
+> **READ FILES ONE BY ONE. DO NOT READ MULTIPLE FILES IN PARALLEL!**
 >
-> MCP Tool: `mcp__docling__convert_document`
-> - Input: `{"source": "file:///path/to/file.pdf"}`
-> - Returns: Markdown text extracted from PDF
+> The docling MCP server WILL CRASH if you try to read multiple PDFs concurrently.
+>
+> - ✅ Read Paper 1 → Wait for result → Read Paper 2 → Wait for result → ...
+> - ❌ DO NOT: Read Paper 1, Paper 2, Paper 3 simultaneously
+>
+> **When reading O-Prize papers for comparison, read them SEQUENTIALLY - one at a time, wait for completion, then read the next.**
 
 ```
-Read a past C-problem O-Prize paper from reference_papers/ using Docling MCP
+Read a past C-problem O-Prize paper from reference_papers/ using Docling MCP (one at a time!)
 ```
 
 ### Step 4: Write Critical Review
