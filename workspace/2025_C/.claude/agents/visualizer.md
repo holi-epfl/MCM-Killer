@@ -114,6 +114,11 @@ Read: output/results_summary.md
 ```
 
 ### Step 3: Create enhanced visualizations
+
+> [!IMPORTANT]
+> **Always activate the venv before running Python:**
+> `source output/venv/Scripts/activate` (Windows)
+
 Write Python scripts to enhance figures:
 ```python
 import matplotlib.pyplot as plt

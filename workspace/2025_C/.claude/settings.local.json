@@ -1,15 +1,23 @@
 {
   "permissions": {
     "allow": [
-      "Bash(*)",
-      "Read(*)",
-      "Write(*)",
-      "Edit(*)",
-      "Glob(*)",
-      "Grep(*)",
-      "LS(*)"
+      "WebSearch",
+      "Bash(mcp__docling__convert_document:*)",
+      "Bash(curl:*)",
+      "Bash(pdftotext:*)",
+      "Bash(findstr:*)",
+      "Bash(dir:*)",
+      "mcp__docling__convert_document_into_docling_document",
+      "mcp__docling__export_docling_document_to_markdown",
+      "Bash(rm:*)",
+      "Bash(mcp call docling:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "docling"
+  ]
 }

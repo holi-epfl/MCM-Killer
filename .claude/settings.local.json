@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "mcp__docling__convert_document_into_docling_document",
+      "mcp__docling__export_docling_document_to_markdown"
     ],
     "deny": [],
     "ask": []

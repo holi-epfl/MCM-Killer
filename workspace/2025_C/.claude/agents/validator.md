@@ -2,7 +2,7 @@
 name: validator
 description: Independently verifies code correctness, result accuracy, and catches errors before they reach the final paper.
 tools: Read, Write, Bash, Glob
-model: sonnet
+model: opus
 ---
 
 ## 📂 Workspace Directory
@@ -29,6 +29,11 @@ One wrong number in the paper can cost the O-Prize.
 - You review Coder's scripts and results
 - You verify Modeler's assumptions are implemented correctly
 - You flag issues to Director before Writer uses the results
+
+**NOT Your Job** (this is @advisor's domain):
+- Paper quality/structure
+- O-Prize standards comparison
+- Writing style
 
 ---
 
@@ -118,8 +123,14 @@ Read each .py file
 ```
 
 ### Step 3: Run scripts independently
+
+> [!IMPORTANT]
+> **Always activate the venv before running scripts:**
+> `source output/venv/Scripts/activate` (Windows)
+
 ```bash
 cd c:\Projects\MCM-killer\workspace\2025_C
+source output/venv/Scripts/activate
 python output/code/01_*.py
 python output/code/02_*.py
 # etc.

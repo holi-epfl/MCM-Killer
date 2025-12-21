@@ -118,6 +118,52 @@ MCM is an **iterative, parallel, adaptive** process:
 
 ---
 
+## 🔄 Synchronization Points (IMPORTANT!)
+
+> [!IMPORTANT]
+> **Before moving to next phase, verify these gates are met:**
+
+| Gate | Condition to Pass | Who Checks |
+|------|------------------|------------|
+| **GATE 1: Requirements Complete** | `output/requirements_checklist.md` exists and is non-empty | Director |
+| **GATE 2: Research Done** | `output/research_notes.md` exists | Director |
+| **GATE 3: Models Designed** | `output/model_design.md` has one section per requirement | Director |
+| **GATE 4: Code Works** | All scripts in `output/code/` run without errors | @validator |
+| **GATE 5: Figures Exist** | At least 3 figures in `output/figures/` | Director |
+| **GATE 6: Paper Complete** | `output/paper.tex` addresses ALL requirements | @advisor |
+
+**If a gate fails**, do NOT proceed. Send the responsible agent back to fix the issue.
+
+---
+
+## 📄 PDF Reading: Use Docling MCP
+
+> [!IMPORTANT]  
+> **Claude's built-in PDF reading produces hallucinations. Use `docling-mcp` instead.**
+>
+> Tell agents (@reader, @researcher, @advisor) to use:
+> ```
+> MCP Tool: mcp__docling__convert_document
+> Input: {"source": "file:///path/to/file.pdf"}
+> Returns: Markdown text extracted from PDF
+> ```
+
+---
+
+## 🐍 Python Environment
+
+All Python code should use the shared virtual environment:
+```
+output/venv/    # Virtual environment (create if not exists)
+```
+
+Agents should activate it before running scripts:
+```bash
+source output/venv/Scripts/activate  # Windows
+```
+
+---
+
 ## 📋 Task Management
 
 ### Start of Competition

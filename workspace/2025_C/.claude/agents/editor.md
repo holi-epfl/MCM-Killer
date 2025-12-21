@@ -1,7 +1,7 @@
 ---
 name: editor
 description: Polishes the paper for grammar, style, consistency, and professional English writing quality.
-tools: Read, Write
+tools: Read, Write, Bash, Glob
 model: opus
 ---
 

@@ -101,23 +101,71 @@ MCM-killer/
 
 ---
 
+## 📋 Prerequisites
+
+### System Requirements
+
+| Requirement | Version | Purpose |
+|-------------|---------|---------|
+| **Python** | 3.10+ | Code execution, venv |
+| **Claude Code** | Latest | Multi-agent orchestration |
+| **uv / uvx** | Latest | MCP server management |
+| **LaTeX** | TeX Live / MiKTeX | Paper compilation (optional) |
+
+### Python Libraries (installed in venv)
+
+```
+pandas numpy scipy scikit-learn matplotlib statsmodels seaborn
+```
+
+### MCP Server: Docling (REQUIRED)
+
+> [!IMPORTANT]
+> **Claude's built-in PDF reader causes hallucinations.** You MUST use `docling-mcp` for accurate PDF extraction.
+
+Install uv (if not already installed):
+```powershell
+# Windows (PowerShell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Linux/macOS
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+---
+
 ## 🚀 Usage
 
-### 1. Navigate to workspace
+### 1. Start Docling MCP Server (in a separate terminal)
+
+```powershell
+cd c:\Projects\MCM-killer
+uvx --from docling-mcp docling-mcp-server --transport sse --port 33333
+```
+
+> Keep this terminal running throughout the session. The MCP server provides PDF text extraction for @reader, @researcher, and @advisor agents.
+
+### 2. Navigate to workspace
+
 ```powershell
 cd c:\Projects\MCM-killer\workspace\2025_C
 ```
 
-### 2. Start Claude Code
+### 3. Start Claude Code
+
 ```powershell
 claude
+# Or with auto-approval for faster iteration:
+claude --dangerously-skip-permissions
 ```
 
-### 3. Run multi-agent workflow
+### 4. Run multi-agent workflow
+
 ```
 Read CLAUDE.md. You are the Director. 
 Start the multi-agent workflow by calling @reader first.
 ```
+
 
 ---
 
