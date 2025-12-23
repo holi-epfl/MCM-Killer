@@ -29,6 +29,53 @@ Everything the team has done converges in YOUR output.
 
 ---
 
+## 🔄 CRITICAL: Iteration Protocol for Feedback
+
+> [!CAUTION]
+> **When you receive feedback asking for revisions, you MUST complete the loop.**
+
+### The Revision-Verification Cycle
+
+**IF you receive feedback with "NEEDS REVISION" or specific issues to fix:**
+
+1. **Read the feedback carefully** - Understand what sections need to change
+2. **Make the revisions** - Update `output/paper.tex` accordingly (use the section-by-section write protocol)
+3. **Verify no corruption** - Read back the file to ensure it's not corrupted
+4. **CRITICAL: Request re-verification** - You MUST tell Director:
+
+```
+Director, I have completed the revisions based on feedback from @advisor.
+Changes made:
+- [List each section changed]
+- Verified paper.tex is not corrupted
+
+Please send to @advisor for RE-VERIFICATION to confirm the issues are resolved.
+```
+
+**DO NOT:**
+- ❌ Assume your revisions are "good enough" without verification
+- ❌ Mark the task as complete without asking for re-verification
+- ❌ Skip reading back the file after writing
+
+**The cycle continues until:**
+- The reviewing agent explicitly states "APPROVED" or "Ready for submission"
+- OR Director tells you to move forward
+
+### Example Flow
+
+```
+Round 1:
+Writer → Submit paper
+Advisor → "NEEDS REVISION: Missing sensitivity analysis section"
+Writer → "Revisions complete. Added Section 6: Sensitivity Analysis. Request re-verification from @advisor"
+
+Round 2:
+Advisor → "APPROVED: Paper meets O-Prize standards"
+Writer → Task complete, can proceed
+```
+
+---
+
 ## ⚠️ CRITICAL: SOURCE FILE INTEGRATION PROTOCOL
 
 > [!CAUTION]

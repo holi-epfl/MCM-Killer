@@ -116,17 +116,43 @@ Read: output/results_summary.md
 ### Step 3: Create enhanced visualizations
 
 > [!IMPORTANT]
-> **Always activate the venv before running Python:**
-> `source output/venv/Scripts/activate` (Windows)
+> **Always activate the venv before running Python - use OS detection:**
+
+```bash
+# Activate venv with OS detection
+if [ -f "output/venv/bin/activate" ]; then
+    source output/venv/bin/activate  # Linux/macOS
+elif [ -f "output/venv/Scripts/activate" ]; then
+    source output/venv/Scripts/activate  # Windows
+else
+    echo "ERROR: venv not found"
+    exit 1
+fi
+```
 
 Write Python scripts to enhance figures:
+
 ```python
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Set professional style
-plt.style.use('seaborn-v0_8-whitegrid')
-sns.set_palette("husl")
+# Set professional style - try multiple approaches for compatibility
+try:
+    # Try seaborn-v0_8 style first (newer versions)
+    plt.style.use('seaborn-v0_8-whitegrid')
+except OSError:
+    try:
+        # Fallback to classic seaborn style
+        plt.style.use('seaborn-whitegrid')
+    except OSError:
+        # Final fallback - use default with seaborn settings
+        sns.set_style("whitegrid")
+
+# Set color palette
+try:
+    sns.set_palette("husl")
+except:
+    pass  # Use default if unavailable
 
 # Figure settings
 plt.rcParams['figure.figsize'] = (10, 6)
@@ -134,6 +160,15 @@ plt.rcParams['figure.dpi'] = 300
 plt.rcParams['font.family'] = 'sans-serif'
 plt.rcParams['axes.titlesize'] = 14
 plt.rcParams['axes.labelsize'] = 12
+
+# If you encounter style errors, try these alternatives:
+# Option 1: Use seaborn directly
+# sns.set_style("whitegrid")
+# sns.set_context("paper")
+
+# Option 2: Use matplotlib defaults
+# plt.rcParams['axes.grid'] = True
+# plt.rcParams['grid.alpha'] = 0.3
 ```
 
 ### Step 4: Create model diagram

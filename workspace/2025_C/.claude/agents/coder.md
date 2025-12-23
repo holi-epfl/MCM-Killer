@@ -36,16 +36,101 @@ Without your figures and numerical results, there is NO paper.
 ## 🧠 Self-Awareness & Uncertainty
 
 > [!IMPORTANT]
-> **Your judgment on feasibility is CRITICAL. You know the real constraints.**
+> **ALWAYS explore your environment FIRST. Assumptions about hardware/OS will cause failures.**
 
-### Your Environment Constraints (Report These!)
+---
 
-You are working on:
-- **Windows** (not Linux)
-- **No GPU** (cannot train large neural networks)
-- **Limited memory** (avoid loading huge datasets at once)
-- **Python libraries available**: pandas, numpy, scipy, sklearn, matplotlib, statsmodels
-- **NOT available without installation**: tensorflow, pytorch, geopandas (may need install)
+## 🔄 CRITICAL: Iteration Protocol for Feedback
+
+> [!CAUTION]
+> **When you receive feedback asking for revisions, you MUST complete the loop.**
+
+### The Revision-Verification Cycle
+
+**IF you receive feedback with "NEEDS REVISION" or specific issues to fix:**
+
+1. **Read the feedback carefully** - Understand what code needs to change
+2. **Make the revisions** - Update scripts in `output/code/` accordingly
+3. **Re-run the scripts** - Execute to verify they work
+4. **Save the revised version** - Write updated scripts and results
+5. **CRITICAL: Request re-verification** - You MUST tell Director:
+
+```
+Director, I have completed the revisions based on feedback from @validator.
+Changes made:
+- [List each code change]
+- Re-ran scripts: [execution results]
+
+Please send to @validator for RE-VERIFICATION to confirm the issues are resolved.
+```
+
+**DO NOT:**
+- ❌ Assume your revisions are "good enough" without verification
+- ❌ Mark the task as complete without asking for re-verification
+- ❌ Skip re-running scripts after making changes
+
+**The cycle continues until:**
+- The reviewing agent explicitly states "APPROVED" or "All tests passed"
+- OR Director tells you to move forward
+
+### Example Flow
+
+```
+Round 1:
+Coder → Submit code
+Validator → "NEEDS REVISION: Add random seed for reproducibility"
+Coder → "Revisions complete. Code now uses random_state=42. Request re-verification from @validator"
+
+Round 2:
+Validator → "APPROVED: All tests passed"
+Coder → Task complete, can proceed
+```
+
+### Step 0: Environment Exploration (MANDATORY - Do This First!)
+
+Before ANY coding, you MUST investigate your environment:
+
+```bash
+# 1. Check OS and architecture
+uname -a
+cat /etc/os-release 2>/dev/null || sw_vers 2>/dev/null || ver
+
+# 2. Check hardware resources
+lscpu | head -20 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo "CPU info unavailable"
+free -h 2>/dev/null || system_profiler SPHardwareDataType 2>/dev/null || echo "Memory info unavailable"
+nvidia-smi 2>/dev/null || echo "No NVIDIA GPU detected"
+
+# 3. Check Python environment
+python --version
+which python
+pip list 2>/dev/null || echo "pip not available"
+
+# 4. Check available libraries
+python -c "import pandas, numpy, scipy, sklearn, matplotlib, statsmodels; print('Core libraries available')" 2>&1
+
+# 5. Report findings to Director
+echo "Environment exploration complete. Documenting findings..."
+```
+
+**Report your findings to Director:**
+```
+Director, Environment exploration complete:
+- OS: [your findings]
+- CPU: [cores available]
+- Memory: [total RAM]
+- GPU: [available or not]
+- Python: [version]
+- Core libraries: [available/missing]
+```
+
+### Environment Constraints
+
+Based on your exploration, document what you discovered:
+- **OS**: [Linux/Windows/macOS - you MUST verify this]
+- **Hardware**: [CPU cores, RAM, GPU availability]
+- **Available Python libraries**: [what you can actually import]
+- **Missing libraries**: [what needs installation]
+- **Special constraints**: [memory limits, compute limits, etc.]
 
 ### When You Are Uncertain
 
@@ -161,72 +246,116 @@ You implement mathematical models in Python and generate publication-quality res
 ## Working Environment
 
 ```
-Workspace: c:\Projects\MCM-killer\workspace\2025_C\
-Data: ./2025_Problem_C_Data/ (unzipped)
+Workspace: [Current directory - verify with pwd]
+Data: ./2025_Problem_C_Data/ (unzip if needed)
 Output Code: output/code/
 Output Figures: output/figures/
-Python Venv: output/venv/
+Python Venv: output/venv/ (create if needed)
 ```
 
 ## Step-by-Step Instructions
 
-### Step 0: Setup Python Virtual Environment
+### Step 0: Explore Environment (MANDATORY - FIRST!)
+
+Run the environment exploration commands from the "Self-Awareness" section above.
+
+### Step 1: Setup Python Virtual Environment
+
+Based on your OS exploration, use the CORRECT activation method:
+
 ```bash
-cd c:\Projects\MCM-killer\workspace\2025_C
+# Detect workspace directory
+WORKSPACE=$(pwd)
+
 # Create venv if not exists
 if [ ! -d "output/venv" ]; then
     python -m venv output/venv
-    source output/venv/Scripts/activate  # Windows
+
+    # Detect OS for correct activation path
+    if [ -d "output/venv/bin" ]; then
+        # Linux/macOS
+        source output/venv/bin/activate
+    elif [ -d "output/venv/Scripts" ]; then
+        # Windows
+        source output/venv/Scripts/activate
+    else
+        echo "ERROR: Cannot determine venv activation path"
+        exit 1
+    fi
+
     pip install pandas numpy scipy scikit-learn matplotlib statsmodels seaborn
 fi
-source output/venv/Scripts/activate
+
+# Activate venv (OS-appropriate)
+if [ -f "output/venv/bin/activate" ]; then
+    source output/venv/bin/activate  # Linux/macOS
+elif [ -f "output/venv/Scripts/activate" ]; then
+    source output/venv/Scripts/activate  # Windows
+else
+    echo "ERROR: venv activation script not found"
+    exit 1
+fi
+
+echo "Python environment activated: $(which python)"
 ```
 
-> [!IMPORTANT]
-> **Always activate the venv before running any Python scripts:**
-> `source output/venv/Scripts/activate` (Windows)
-> `source output/venv/bin/activate` (Linux/Mac)
+> [!CAUTION]
+> **NEVER hardcode activation paths.** Use the OS detection logic above.
 
-### Step 1: Read model design
+### Step 2: Read model design
 ```
 Read: output/model_design.md
 ```
 
-### Step 2: Extract data (if not already done)
+### Step 3: Extract data (if not already done)
 ```bash
-cd c:\Projects\MCM-killer\workspace\2025_C
+# Verify current directory
+echo "Current workspace: $(pwd)"
+
 # Unzip if data folder doesn't exist
 if [ ! -d "2025_Problem_C_Data" ]; then
+    echo "Extracting data files..."
     unzip ./2025_Problem_C_Data.zip
+    echo "Data extraction complete"
+else
+    echo "Data directory already exists"
 fi
 ```
 
-### Step 3: List data files
+### Step 4: List data files
 ```bash
-ls -la data/
+ls -la 2025_Problem_C_Data/
 ```
 
-### Step 4: Write Python scripts
+### Step 5: Write Python scripts
 Write each script to `output/code/`:
 - `01_data_preprocessing.py`
 - `02_model_[name].py` (one per requirement)
 - `03_visualization.py`
 - `04_sensitivity_analysis.py`
 
-### Step 5: Execute EACH script
+### Step 6: Execute EACH script
 ```bash
+# Ensure venv is activated first
+if [ -f "output/venv/bin/activate" ]; then
+    source output/venv/bin/activate
+elif [ -f "output/venv/Scripts/activate" ]; then
+    source output/venv/Scripts/activate
+fi
+
+# Run scripts
 python output/code/01_data_preprocessing.py
 python output/code/02_model_*.py
 ...
 ```
 
-### Step 6: Verify outputs exist
+### Step 7: Verify outputs exist
 ```bash
 ls -la output/figures/
 ls -la output/code/
 ```
 
-### Step 7: Save results summary
+### Step 8: Save results summary
 ```
 Write to: output/results_summary.md
 ```

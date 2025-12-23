@@ -37,7 +37,7 @@ graph TD
 
 ---
 
-## � Lessons Learned
+## 📚 Lessons Learned
 
 ### ⚠️ Critical Issues Discovered
 
@@ -107,23 +107,107 @@ MCM-killer/
 
 | Requirement | Version | Purpose |
 |-------------|---------|---------|
-| **Python** | 3.10+ | Code execution, venv |
+| **Python** | 3.10+ | Code execution (agents will manage venv) |
 | **Claude Code** | Latest | Multi-agent orchestration |
-| **uv / uvx** | Latest | MCP server management |
 | **LaTeX** | TeX Live / MiKTeX | Paper compilation (optional) |
-
-### Python Libraries (installed in venv)
-
-```
-pandas numpy scipy scikit-learn matplotlib statsmodels seaborn
-```
 
 ### MCP Server: Docling (REQUIRED)
 
 > [!IMPORTANT]
 > **Claude's built-in PDF reader causes hallucinations.** You MUST use `docling-mcp` for accurate PDF extraction.
 
-Install uv (if not already installed):
+---
+
+## 🚀 Environment Setup
+
+### Platform-Specific Instructions
+
+Choose your platform below:
+
+- [AutoDL Linux (Root)](#autodl-setup-recommended)
+- [General Windows/Linux/macOS](#general-setup)
+
+---
+
+### AutoDL Setup (Recommended)
+
+> [!NOTE]
+> **AutoDL-specific requirements**: Root execution, path issues, missing system libraries. The scripts below solve all these problems at once.
+
+#### Step 1: Base Environment & Toolchain (Execute All at Once)
+
+This step solves three problems:
+
+**Missing libraries**: Installs Docling-required OCR and graphics libraries.
+
+**Path issues**: Installs uv and forces AutoDL path fixes.
+
+**Permissions**: Writes `IS_SANDBOX` variable to allow Claude to run as root without confirmation.
+
+```bash
+# 1. Install system dependencies
+apt-get update
+apt-get install -y libgl1 libglib2.0-0 poppler-utils tesseract-ocr
+
+# 2. Install uv (Python environment manager)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 3. Write critical environment variables (solves path + Root permission issues)
+echo 'export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
+echo 'export IS_SANDBOX=1' >> ~/.bashrc
+
+# 4. Apply configuration immediately
+source ~/.bashrc
+```
+
+#### Step 2: Register Docling MCP Server
+
+This step uses the most robust approach discovered: find absolute path first, then use double dash `--` for parameters to prevent parsing errors.
+
+```bash
+# 1. Force-find uvx absolute path (most stable method on AutoDL)
+UVX_PATH=$(find /root -name uvx -type f | head -n 1)
+echo "uvx path locked to: $UVX_PATH"
+
+# 2. Register tool (note the -- symbol in the middle)
+claude mcp add docling -- "$UVX_PATH" --from docling-mcp docling-mcp-server
+```
+
+#### Step 3: Verify & Run
+
+Environment is now configured. Since we added `IS_SANDBOX=1` to `.bashrc`, running Claude directly will work without any confirmation prompts.
+
+```bash
+cd /root/autodl-tmp/MCM-Killer/workspace/2025_C
+claude
+```
+
+#### Step 4: Run Multi-Agent Workflow
+
+```
+Read CLAUDE.md. You are the Director.
+Start the multi-agent workflow by calling @reader first.
+```
+
+---
+
+### General Setup
+
+For Windows, macOS, or standard Linux environments (non-root).
+
+#### Step 1: Install System Dependencies (Linux/macOS only)
+
+```bash
+# Ubuntu/Debian
+sudo apt-get update
+sudo apt-get install -y libgl1 libglib2.0-0 poppler-utils tesseract-ocr
+
+# macOS
+brew install poppler tesseract
+```
+
+#### Step 2: Install uv
+
 ```powershell
 # Windows (PowerShell)
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
@@ -132,37 +216,23 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
----
+#### Step 3: Register Docling MCP Server
 
-## 🚀 Usage
-
-### 1. Start Docling MCP Server (in a separate terminal)
-
-```powershell
-cd c:\Projects\MCM-killer
-uvx --from docling-mcp docling-mcp-server --transport sse --port 33333
+```bash
+claude mcp add docling -- uvx --from docling-mcp docling-mcp-server
 ```
 
-> Keep this terminal running throughout the session. The MCP server provides PDF text extraction for @reader, @researcher, and @advisor agents.
+#### Step 4: Navigate to Workspace & Run
 
-### 2. Navigate to workspace
-
-```powershell
-cd c:\Projects\MCM-killer\workspace\2025_C
-```
-
-### 3. Start Claude Code
-
-```powershell
+```bash
+cd path/to/MCM-Killer/workspace/2025_C
 claude
-# Or with auto-approval for faster iteration:
-claude --dangerously-skip-permissions
 ```
 
-### 4. Run multi-agent workflow
+#### Step 5: Run Multi-Agent Workflow
 
 ```
-Read CLAUDE.md. You are the Director. 
+Read CLAUDE.md. You are the Director.
 Start the multi-agent workflow by calling @reader first.
 ```
 
@@ -173,15 +243,21 @@ Start the multi-agent workflow by calling @reader first.
 
 To prevent accidental deletion of source files:
 
+**Linux/macOS:**
+```bash
+chmod -R a-w "problems and results/"
+chmod -R a-w "student paper/"
+```
+
+**Windows:**
 ```powershell
-# Set read-only on important directories
 attrib +R "problems and results\*" /S
 attrib +R "student paper\*" /S
 ```
 
 ---
 
-## � Roadmap
+## 🗺️ Roadmap
 
 - [x] **Phase 1**: Data Collection & Standardization
 - [x] **Phase 2**: Multi-Agent Architecture Design

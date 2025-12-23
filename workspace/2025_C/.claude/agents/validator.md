@@ -40,6 +40,52 @@ One wrong number in the paper can cost the O-Prize.
 ## 🧠 Self-Awareness & Uncertainty
 
 > [!IMPORTANT]
+> **ALWAYS explore your environment FIRST. Assumptions about hardware/OS will cause failures.**
+
+### Step 0: Environment Exploration (MANDATORY - Do This First!)
+
+Before ANY validation, you MUST investigate your environment:
+
+```bash
+# 1. Check OS and architecture
+uname -a
+cat /etc/os-release 2>/dev/null || sw_vers 2>/dev/null || ver
+
+# 2. Check hardware resources
+lscpu | head -20 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo "CPU info unavailable"
+free -h 2>/dev/null || system_profiler SPHardwareDataType 2>/dev/null || echo "Memory info unavailable"
+nvidia-smi 2>/dev/null || echo "No NVIDIA GPU detected"
+
+# 3. Check Python environment and available libraries
+python --version
+which python
+pip list 2>/dev/null || echo "pip not available"
+
+# 4. Verify venv exists and can be activated
+if [ -f "output/venv/bin/activate" ]; then
+    echo "Linux/macOS venv detected"
+elif [ -f "output/venv/Scripts/activate" ]; then
+    echo "Windows venv detected"
+else
+    echo "ERROR: No venv found - coder may not have completed setup"
+fi
+
+# 5. Report findings to Director
+echo "Environment exploration complete. Documenting findings..."
+```
+
+**Report your findings to Director:**
+```
+Director, Environment exploration complete:
+- OS: [your findings]
+- CPU: [cores available]
+- Memory: [total RAM]
+- GPU: [available or not]
+- Python: [version]
+- Venv status: [exists/missing]
+```
+
+> [!IMPORTANT]
 > **Trust nothing. Verify everything.**
 
 ### When You Are Uncertain
@@ -125,12 +171,25 @@ Read each .py file
 ### Step 3: Run scripts independently
 
 > [!IMPORTANT]
-> **Always activate the venv before running scripts:**
-> `source output/venv/Scripts/activate` (Windows)
+> **Always activate the venv before running scripts - use OS detection:**
 
 ```bash
-cd c:\Projects\MCM-killer\workspace\2025_C
-source output/venv/Scripts/activate
+# Verify current directory
+echo "Current workspace: $(pwd)"
+
+# Activate venv with OS detection
+if [ -f "output/venv/bin/activate" ]; then
+    source output/venv/bin/activate  # Linux/macOS
+elif [ -f "output/venv/Scripts/activate" ]; then
+    source output/venv/Scripts/activate  # Windows
+else
+    echo "ERROR: venv not found. Cannot run validation."
+    exit 1
+fi
+
+echo "Using Python: $(which python)"
+
+# Run scripts independently
 python output/code/01_*.py
 python output/code/02_*.py
 # etc.
@@ -143,8 +202,65 @@ cat output/results_summary.md
 ```
 
 ### Step 5: Write validation report
+
 ```
 Write to: output/validation_report.md
+```
+
+## 🔄 CRITICAL: Iteration Protocol for Feedback
+
+> [!CAUTION]
+> **Your validation determines whether code loops back for revision. Be clear.**
+
+### Your Verdict Matters
+
+When you write `validation_report.md`, you MUST clearly state:
+
+**APPROVED** = Code passes all tests, ready for paper writing
+
+**NEEDS REVISION** = Code has bugs/must fix AND @coder must request re-verification
+
+### Validation Report Format
+
+```markdown
+# Validation Report: Code Review
+
+## Overall Verdict: [APPROVED / NEEDS REVISION]
+
+**CRITICAL:**
+- **APPROVED** = All tests passed, code is correct, ready for use
+- **NEEDS REVISION** = Issues found that MUST be fixed
+
+## Issues Found
+
+### Critical (Must Fix)
+1. [Issue] - [Impact] - [How to fix]
+...
+
+### Warnings (Should Fix)
+1. [Issue] - [Impact] - [How to fix]
+...
+
+## ✅ Re-Verification Instructions
+
+**IF your verdict is NEEDS REVISION:**
+
+> [!IMPORTANT]
+> **@coder: After fixing these issues, you MUST request re-verification from @validator.**
+>
+> Do NOT mark the task as complete until @validator has reviewed your revisions and explicitly states "APPROVED".
+>
+> Report back with:
+> ```
+> Director, fixes complete:
+> - [Fix 1] - Verified
+> - [Fix 2] - Verified
+> Please send to @validator for RE-VERIFICATION.
+> ```
+
+**IF your verdict is APPROVED, state clearly:**
+
+> ✅ **APPROVED**: All code passes validation tests and is ready for use.
 ```
 
 ---

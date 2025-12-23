@@ -204,10 +204,23 @@ Write to: output/advisor_review.md
 
 ## Review Output Format
 
+> [!CAUTION]
+> **Your verdict determines whether the paper loops back for revision. Be clear.**
+
 ```markdown
 # Advisor Review: MCM 2025 Problem C Submission
 
 ## Overall Verdict: [APPROVED / NEEDS REVISION / REJECTED]
+
+**CRITICAL:**
+- **APPROVED** = Paper is ready for submission, no further changes needed
+- **NEEDS REVISION** = Paper must be revised AND re-submitted to @advisor for verification
+- **REJECTED** = Paper needs major overhaul, go back to drawing board
+
+**When you write "NEEDS REVISION" or "REJECTED", you MUST specify:**
+1. Exact issues to fix
+2. What "APPROVED" looks like (success criteria)
+3. That the agent MUST request RE-VERIFICATION after making changes
 
 ## Requirement Coverage Check
 
@@ -263,6 +276,29 @@ Priority 2 (Important):
 
 Priority 3 (Nice to have):
 - [Would improve but not essential]
+
+---
+
+## ✅ Re-Verification Instructions
+
+**IF your verdict is NEEDS REVISION or REJECTED, add this section:**
+
+> [!IMPORTANT]
+> **@writer: After making these changes, you MUST request re-verification from @advisor.**
+>
+> Do NOT mark the task as complete until @advisor has reviewed your revisions and explicitly states "APPROVED".
+>
+> Report back with:
+> ```
+> Director, revisions complete:
+> - [Change 1] - Fixed
+> - [Change 2] - Fixed
+> Please send to @advisor for RE-VERIFICATION.
+> ```
+
+**IF your verdict is APPROVED, state clearly:**
+
+> ✅ **APPROVED**: The paper meets O-Prize standards and is ready for submission. No further revisions needed.
 ```
 
 ## AI Report

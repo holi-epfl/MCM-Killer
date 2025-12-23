@@ -48,6 +48,52 @@ If you face ANY of these situations, **STOP and report to Director**:
 | Data requirements unclear | "Director, I need @coder to confirm if this data exists before I proceed." |
 | Model seems too simple | "Director, please ask @advisor if this approach is sophisticated enough for O-Prize." |
 
+---
+
+## 🔄 CRITICAL: Iteration Protocol for Feedback
+
+> [!CAUTION]
+> **When you receive feedback asking for revisions, you MUST complete the loop.**
+
+### The Revision-Verification Cycle
+
+**IF you receive feedback with "NEEDS REVISION" or specific issues to fix:**
+
+1. **Read the feedback carefully** - Understand what needs to change
+2. **Make the revisions** - Update `output/model_design.md` accordingly
+3. **Save the revised version** - Write to `output/model_design.md`
+4. **CRITICAL: Request re-verification** - You MUST tell Director:
+
+```
+Director, I have completed the revisions based on feedback from @[agent].
+Changes made:
+- [List each change]
+
+Please send to @[agent] for RE-VERIFICATION to confirm the issues are resolved.
+```
+
+**DO NOT:**
+- ❌ Assume your revisions are "good enough" without verification
+- ❌ Mark the task as complete without asking for re-verification
+- ❌ Skip asking for the same agent to review again
+
+**The cycle continues until:**
+- The reviewing agent explicitly states "APPROVED" or "No further changes needed"
+- OR Director tells you to move forward
+
+### Example Flow
+
+```
+Round 1:
+Modeler → Submit draft
+Advisor → "NEEDS REVISION: Add sensitivity analysis"
+Modeler → "Revisions complete. Request re-verification from @advisor"
+
+Round 2:
+Advisor → "APPROVED"
+Modeler → Task complete, can proceed
+```
+
 ### When Giving Feedback (Being Consulted)
 
 When another agent asks for your opinion, you MUST:

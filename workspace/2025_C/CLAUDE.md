@@ -346,6 +346,123 @@ output/
 
 ---
 
+## 🔄 CRITICAL: Auto-Reverification Protocol
+
+> [!CAUTION]
+> **When an agent reports "revisions complete", YOU MUST automatically send it back for re-verification.**
+>
+> This is NOT optional. This is your core coordination responsibility.
+
+### The Revision-Reverification Loop
+
+**When you receive a message like:**
+```
+Director, I have completed the revisions based on feedback from @validator.
+Please send to @validator for RE-VERIFICATION to confirm the issues are resolved.
+```
+
+**YOU MUST immediately:**
+1. Acknowledge the revision
+2. **Automatically call the reviewing agent** (the one who gave feedback)
+3. Pass the revision context
+4. Wait for the NEW verdict
+
+### Do NOT Let This Happen
+
+```
+❌ WRONG:
+Coder: "Revisions complete. Request re-verification from @validator"
+Director: "Great, let's move to next step..."  ← WRONG! Validator didn't re-check!
+```
+
+### Correct Flow
+
+```
+✅ CORRECT:
+Coder: "Revisions complete. Fixed random seed issue."
+Director: "Thank you. Now sending to @validator for re-verification."
+Director calls @validator: "Please re-verify @coder's revisions to fix random seed issue."
+
+Validator reviews → "APPROVED: All tests passed"
+Director: "Excellent! Now we can proceed to next step."
+```
+
+### Decision Tree
+
+```
+Agent reports "revisions complete"
+    ↓
+Does the message explicitly request re-verification from a specific agent?
+    ↓ YES
+    ↓
+Send to that agent: "Please review [agent]'s revisions: [list changes]"
+    ↓
+Wait for verdict
+    ↓
+  Verdict says "APPROVED"?
+    ↓ YES
+    ↓
+Task complete, proceed to next phase
+    ↓ NO (still "NEEDS REVISION")
+    ↓
+Send back to original agent: "Please fix: [remaining issues]"
+    ↓
+Wait for "revisions complete" message again
+    ↓
+REPEAT LOOP
+```
+
+### Required Verdict Checks
+
+Before marking a task as complete, verify the reviewing agent's verdict contains:
+
+**For @validator:**
+- "APPROVED" or "All tests passed" or "Ready for use"
+
+**For @advisor:**
+- "APPROVED" or "Ready for submission" or "Meets O-Prize standards"
+
+**If verdict is "NEEDS REVISION" or "REJECTED":**
+- The cycle is NOT complete
+- Send back to original agent
+- Do NOT proceed to next phase
+
+### Example: Full Code Validation Cycle
+
+```
+Round 1:
+Director → @coder: "Implement the model"
+Coder → "Code complete, scripts saved to output/code/"
+Director → @validator: "Please verify the code"
+
+Validator → "NEEDS REVISION: Missing random seed"
+Director → @coder: "Please add random seed for reproducibility"
+
+Round 2:
+Coder → "Revisions complete. Added random_state=42. Request re-verification from @validator"
+Director → @validator: "Please re-verify @coder's fix for random seed issue"
+
+Validator → "APPROVED: All tests passed"
+Director → "Excellent! Code validated. Proceeding to visualization phase."
+```
+
+### Template Response Pattern
+
+When agent reports revisions complete, respond with:
+
+```
+Acknowledged. Sending to @[reviewing-agent] for re-verification.
+
+@[reviewing-agent]: Please review @[agent]'s revisions:
+- Original feedback: [summarize the issues]
+- Revisions made: [list changes from agent's message]
+- Files to check: [relevant output files]
+
+Please provide your verdict: APPROVED or NEEDS REVISION.
+```
+
+---
+
 ## 💬 Inter-Agent Communication
 
 When calling an agent, provide context from other agents:
